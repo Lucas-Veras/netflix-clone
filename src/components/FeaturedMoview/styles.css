@@ -15,7 +15,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-left: 30px;
+    padding-left: 60px;
     padding-bottom: 150px;
     padding-top: 70px;
 }
@@ -105,7 +105,7 @@
     .featured-description {
         font-size: 14px;
         max-width: 100%;
-        margin-right: 30px;
+        margin-right: 60px;
     }
 
     .featured-watchButton,
