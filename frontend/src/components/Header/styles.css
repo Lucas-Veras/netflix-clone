@@ -1,0 +1,135 @@
+header {
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 60px;
+    background: transparent;
+    transition: all ease .5s;
+}
+
+header.black {
+    background-color: #141414;
+}
+
+.left {
+    display: flex;
+    justify-content: flex-start;
+    gap: 40px;
+    height: 25px;
+}
+
+.left a {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.left img {
+    height: 100%;
+}
+
+.header-links {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+}
+
+.right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 15px;
+    height: 35px;
+}
+
+.right svg {
+    height: 35px;
+}
+
+
+.header-type {
+    font-size: 14px;
+}
+
+.header-user {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.header-user svg {
+    transition: all ease .2s;
+}
+
+.header-user img {
+    height: 35px;
+    border-radius: 3px;
+}
+
+.dropdown {
+    position: absolute;
+    display: none;
+    top: 125%;
+    width: 20vh;
+    z-index: 1;
+    background-color: #141414;
+    font-size: 14px;
+}
+
+.dropdown p {
+    padding: 6px 12px;
+}
+
+.dropdown-triangle {
+    display: none !important;
+    width: 40px !important;
+    z-index: 2;
+    color: rgb(212, 212, 212);
+    transform: rotate(180deg);
+}
+
+.logout {
+    border-top: 1px solid rgba(212, 212, 212, 0.669);
+    text-align: center;
+}
+
+@media (min-width: 800px) {
+    .header-user:hover .dropdown {
+        display: flex;
+        flex-direction: column;
+        right: 0%;
+    }
+
+    .header-user:hover .dropdown-triangle {
+        display: inline-block !important;
+        position: absolute;
+        top: 70%;
+    }
+
+    .header-user:hover .menuTriangle {
+        transform: rotate(180deg);
+    }
+}
+
+@media (max-width: 800px) {
+    .dropdown.active {
+        display: flex;
+        flex-direction: column;
+        right: 0%;
+    }
+
+    .menuTriangle.active {
+        transform: rotate(180deg);
+    }
+
+    .dropdown-triangle.active {
+        display: inline-block !important;
+        position: absolute;
+        top: 70%;
+    }
+}

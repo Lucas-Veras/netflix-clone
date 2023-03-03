@@ -52,11 +52,17 @@
 
 .featured-buttons {
     margin-top: 15px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .featured-watchButton,
 .featured-myListButton {
-    display: inline-block;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
     font-size: 20px;
     font-weight: bold;
     padding: 12px 25px;

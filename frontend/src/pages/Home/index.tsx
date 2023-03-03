@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
-import reactLogo from "./assets/react.svg";
-import MovieRow from "./components/MovieRow";
-import { IMoviesList, IResults } from "./interfaces/ImovieList";
+import MovieRow from "../../components/MovieRow";
+import { IMoviesList, IResults } from "../../interfaces/ImovieList";
 
-import Tmdb from "./service/Tmdb";
+import Tmdb from "../../service/Tmdb";
 
-import "./App.css";
-import FeaturedMovie from "./components/FeaturedMoview";
-import { IMovieDetail } from "./interfaces/IMovieDetail";
-import Header from "./components/Header";
-import Loading from "./components/Loading";
+import FeaturedMovie from "../../components/FeaturedMoview";
+import { IMovieDetail } from "../../interfaces/IMovieDetail";
+import Header from "../../components/Header";
+import Loading from "../../components/Loading";
 
-function App() {
+const Home = () => {
   const [movieList, setMovieList] = useState<IMoviesList[]>([]);
   const [featuredData, setFeaturedData] = useState<IMovieDetail | undefined>(
     undefined,
@@ -41,11 +39,7 @@ function App() {
 
   useEffect(() => {
     const scrollListener = () => {
-      if (window.scrollY > 10) {
-        setBlackHeader(true);
-      } else {
-        setBlackHeader(false);
-      }
+      window.scrollY > 10 ? setBlackHeader(true) : setBlackHeader(false);
     };
 
     window.addEventListener("scroll", scrollListener);
@@ -66,6 +60,6 @@ function App() {
       {movieList.length <= 0 && <Loading />}
     </div>
   );
-}
+};
 
-export default App;
+export default Home;

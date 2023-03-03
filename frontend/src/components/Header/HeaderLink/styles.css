@@ -1,0 +1,12 @@
+.activeNavLink {
+    color: #fff;
+}
+
+.deactiveNavLink {
+    color: #e5e5e5e6;
+    transition: .5s;
+}
+
+.deactiveNavLink:hover {
+    color: #a5a5a5e6;
+}

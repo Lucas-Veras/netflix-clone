@@ -1,18 +1,19 @@
 import { IMovieDetail } from "../../interfaces/IMovieDetail";
 import "./styles.css";
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 interface IFeaturedMovieProps {
   item: IMovieDetail;
 }
 
 const FeaturedMovie = ({ item }: IFeaturedMovieProps) => {
-
   let firstDate = new Date(item.first_air_date);
   let genresList: string[] = item.genres.map((genre) => genre.name);
 
   let description = item.overview;
   if (description.length > 200) {
-    description = description.substring(0, 200) + "..."
+    description = description.substring(0, 200) + "...";
   }
 
   return (
@@ -31,13 +32,20 @@ const FeaturedMovie = ({ item }: IFeaturedMovieProps) => {
             <div className="featured-points">{item.vote_average} pontos</div>
             <div className="featured-year">{firstDate.getFullYear()}</div>
             <div className="featured-seasons">
-              {item.number_of_seasons} temporada{item.number_of_seasons > 1 ? "s" : ""}
+              {item.number_of_seasons} temporada
+              {item.number_of_seasons > 1 ? "s" : ""}
             </div>
           </div>
           <div className="featured-description">{description}</div>
           <div className="featured-buttons">
-            <a href={`/watch/${item.id}`} className="featured-watchButton">► Assistir</a>
-            <a href={`/list/add/${item.id}`} className="featured-myListButton">+ Minha Lista</a>
+            <a href={`/watch/${item.id}`} className="featured-watchButton">
+              <PlayArrowIcon />
+              Assistir
+            </a>
+            <a href={`/list/add/${item.id}`} className="featured-myListButton">
+              <InfoOutlinedIcon />
+              Minha Lista
+            </a>
           </div>
           <div className="featured-genres">
             Gêneros: <strong>{genresList.join(", ")}</strong>
