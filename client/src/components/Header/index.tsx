@@ -8,19 +8,26 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useState, useEffect } from "react";
 import HeaderUser from "./HeaderUser";
 
-interface IHeader {
-  black: boolean;
-}
-
-const Header = ({ black }: IHeader) => {
+const Header = () => {
+  const [blackHeader, setBlackHeader] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+
+  useEffect(() => {
+    const scrollListener = () => {
+      window.scrollY > 10 ? setBlackHeader(true) : setBlackHeader(false);
+    };
+    window.addEventListener("scroll", scrollListener);
+    return () => {
+      window.removeEventListener("scroll", scrollListener);
+    };
+  }, []);
 
   const handleShowMenu = () => {
     setShowMenu(!showMenu);
   };
   
   return (
-    <header className={black ? "black" : ""}>
+    <header className={blackHeader ? "black" : ""}>
       <div className="left">
         <Link to="/">
           <img src={netflixLogo} alt="Netflix logo" />

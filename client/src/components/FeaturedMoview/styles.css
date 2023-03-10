@@ -20,6 +20,10 @@
     padding-top: 70px;
 }
 
+.featured-imgTitle {
+    max-width: 350px;
+}
+
 .featured-name {
     font-size: 60px;
     font-weight: bold;
@@ -57,6 +61,11 @@
     align-items: center;
 }
 
+.featured-buttons svg {
+    width: 40px;
+    height: 40px;
+}
+
 .featured-watchButton,
 .featured-myListButton {
     display: flex;
@@ -65,7 +74,7 @@
     gap: 10px;
     font-size: 20px;
     font-weight: bold;
-    padding: 12px 25px;
+    padding: 12px 35px;
     border-radius: 5px;
     text-decoration: none;
     margin-right: 10px;
@@ -81,7 +90,11 @@
 
 .featured-watchButton {
     background-color: #fff;
-    color: #000;
+    color: #000000;
+}
+
+.featured-watchButton svg {
+    color: #000000;
 }
 
 .featured-myListButton {
