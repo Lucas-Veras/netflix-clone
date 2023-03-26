@@ -28,6 +28,7 @@
     width: 325px;
     height: 300px;
     position: absolute;
+    margin-right: 10px;
     /* top: -100px;*/
     border-radius: 5px;
     overflow: hidden;

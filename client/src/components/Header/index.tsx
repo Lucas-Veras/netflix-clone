@@ -8,7 +8,11 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useState, useEffect } from "react";
 import HeaderUser from "./HeaderUser";
 
-const Header = () => {
+interface IHeader {
+  dispatch: (e: any) => any;
+}
+
+const Header = ({ dispatch }: IHeader) => {
   const [blackHeader, setBlackHeader] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
 
@@ -25,7 +29,7 @@ const Header = () => {
   const handleShowMenu = () => {
     setShowMenu(!showMenu);
   };
-  
+
   return (
     <header className={blackHeader ? "black" : ""}>
       <div className="left">
@@ -55,7 +59,11 @@ const Header = () => {
           <NotificationsNoneIcon />
         </div>
 
-        <HeaderUser handleClick={handleShowMenu} showMenu={showMenu} />
+        <HeaderUser
+          handleClick={handleShowMenu}
+          showMenu={showMenu}
+          dispatch={dispatch}
+        />
       </div>
     </header>
   );

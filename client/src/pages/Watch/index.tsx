@@ -2,8 +2,9 @@ import "./styles.css";
 import { ArrowBackOutlined } from "@mui/icons-material";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { api } from "../../service/api";
+import { api } from "../../services/api";
 import { IMovie } from "../../interfaces/IMovie";
+import { getHeaders } from "../../utils/getHeaders";
 
 const Watch = () => {
   const { id } = useParams();
@@ -12,12 +13,7 @@ const Watch = () => {
   useEffect(() => {
     const getMovie = async () => {
       try {
-        const res = await api.get("/movies/find/" + id, {
-          headers: {
-            token:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZmU1YmNjMzI2M2ZkNjY3YzE1MThmMyIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY3ODEyOTA3OSwiZXhwIjoxNjc4NTYxMDc5fQ.zFmCjAYJmW85R8en0veubhvj5ulNcRLqkPLi6BV8mog" /*+JSON.parse(localStorage.getItem("user")).accessToken0,*/,
-          },
-        });
+        const res = await api.get(`/movies/find/${id}`, getHeaders());
         setMovie(res.data);
       } catch (err) {
         console.log(err);
@@ -26,7 +22,7 @@ const Watch = () => {
 
     getMovie();
   }, []);
- 
+
   return (
     <div className="watch">
       <Link to="/">

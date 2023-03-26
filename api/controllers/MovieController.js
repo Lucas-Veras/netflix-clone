@@ -42,7 +42,7 @@ const deleteMovie = async (req, res) => {
                 return;
             }
 
-            await User.findByIdAndDelete(req.params.id)
+            await Movie.findByIdAndDelete(req.params.id)
             res.status(200).json({ success: ["Filme deletado!"] })
         } catch (err) {
             res.status(500).json(err)

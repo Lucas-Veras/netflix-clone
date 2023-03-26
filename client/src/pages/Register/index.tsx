@@ -1,14 +1,14 @@
-//import axios from "axios";
-import { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useRef, HtmlHTMLAttributes } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./register.css";
 import netflixLogo from "../../assets/netflixLogo.png";
+import { api } from "../../services/api";
 
 export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-  const navigate = useNavigate();
+  const Navigate = useNavigate();
 
   const emailRef = useRef<any>();
   const passwordRef = useRef<any>();
@@ -17,21 +17,24 @@ export default function Register() {
   const handleStart = () => {
     setEmail(emailRef.current.value);
   };
-  const handleFinish = async (e: any) => {
+
+  const handleFinish = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setPassword(passwordRef.current.value);
     setUsername(usernameRef.current.value);
     try {
-      //  await axios.post("auth/register", { email,username, password });
-      navigate("/login");
-    } catch (err) {}
+      await api.post("auth/register", { email, username, password });
+      Navigate("/login");
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <div className="register">
       <div className="top">
         <div className="wrapper">
           <img className="logo" src={netflixLogo} alt="netflix" />
-          <button className="loginButton">Entrar</button>
+          <Link to="/login" className="loginButton">Entrar</Link>
         </div>
       </div>
       <div className="container">

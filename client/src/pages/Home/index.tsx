@@ -1,40 +1,38 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import MovieRow from "../../components/MovieRow";
-import { IMoviesList, IResults } from "../../interfaces/ImovieList";
-import Tmdb from "../../service/Tmdb";
 import FeaturedMovie from "../../components/FeaturedMoview";
-import { IMovieDetail } from "../../interfaces/IMovieDetail";
 import Header from "../../components/Header";
 import Loading from "../../components/Loading";
-import axios from "axios";
-import { api } from "../../service/api";
+import { api } from "../../services/api";
 import { IMovieRow } from "../../interfaces/IMovieRow";
-import { IMovieRow2 } from "../../interfaces/IMovieRow2";
-import MovieRow2 from "../../components/MovieRow2";
 import { IMovie } from "../../interfaces/IMovie";
+import { getHeaders } from "../../utils/getHeaders";
+import { AuthContext } from "../../context/authContext/authContext";
 
 interface IHome {
   type?: string;
 }
 
 const Home = ({ type }: IHome) => {
-  const [lists, setLists] = useState<IMovieRow2[]>([]);
-  const [genre, setGenre] = useState<string | null>(null);
+  const [lists, setLists] = useState<IMovieRow[]>([]);
+  const [genre, setGenre] = useState<string | undefined>();
+  const { dispatch } = useContext(AuthContext);
 
   useEffect(() => {
     const getRandomLists = async () => {
       try {
-        const res = await api.get(
-          `/lists${type ? "?type=" + type : ""}${
-            genre ? "&genre=" + genre : ""
-          }`,
-          {
-            headers: {
-              token:
-                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZmU1YmNjMzI2M2ZkNjY3YzE1MThmMyIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY3ODEyOTA3OSwiZXhwIjoxNjc4NTYxMDc5fQ.zFmCjAYJmW85R8en0veubhvj5ulNcRLqkPLi6BV8mog" /*+JSON.parse(localStorage.getItem("user")).accessToken,*/,
-            },
-          },
-        );
+        let res;
+        if (typeof type === "string") {
+          res = await api.get(
+            `/lists${type ? "?type=" + type : ""}${
+              genre ? "&genre=" + genre : ""
+            }`,
+            getHeaders(),
+          );
+        } else {
+          res = await api.get(`/lists`, getHeaders());
+        }
+
         setLists(res.data);
       } catch (err) {
         console.log(err);
@@ -50,12 +48,7 @@ const Home = ({ type }: IHome) => {
       try {
         const res = await api.get(
           `/movies/ramdom${type ? "?type=" + type : ""}`,
-          {
-            headers: {
-              token:
-                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZmU1YmNjMzI2M2ZkNjY3YzE1MThmMyIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY3ODQ4ODA0NCwiZXhwIjoxNjc4OTIwMDQ0fQ.lld-MNaFbjgGh1ymlH8IzoJtI7BvqdNXskw29Hqzrmc" /*+ JSON.parse(localStorage.getItem("user")).accessToken,*/,
-            },
-          },
+          getHeaders(),
         );
         setContent(res.data[0]);
       } catch (err) {
@@ -65,43 +58,22 @@ const Home = ({ type }: IHome) => {
     getRandomContent();
   }, [type]);
 
-  console.log(content);
-
-  const [movieList, setMovieList] = useState<IMoviesList[]>([]);
-  const [featuredData, setFeaturedData] = useState<IMovieDetail | undefined>(
-    undefined,
-  );
-
-  useEffect(() => {
-    const loadAll = async () => {
-      let list = await Tmdb.getHomeList();
-      setMovieList(list);
-
-      let originals = list.filter((i) => i.slug === "originals");
-      let chosen: IResults | undefined;
-
-      while (chosen === undefined || chosen.backdrop_path === null) {
-        let ramdomChosen = Math.floor(
-          Math.random() * (originals[0].items.results.length - 1),
-        );
-        chosen = originals[0].items.results[ramdomChosen];
-      }
-
-      let chosenInfo = await Tmdb.getMovieInfo(chosen.id, "tv");
-      setFeaturedData(chosenInfo);
-    };
-    loadAll();
-  }, []);
-
   return (
     <div className="page">
-      <Header />
-      {content && <FeaturedMovie item={content} />}
+      <Header dispatch={dispatch} />
+      {content && (
+        <FeaturedMovie
+          item={content}
+          type={type}
+          setGenre={setGenre}
+          genre={genre}
+        />
+      )}
 
       <section className="lists">
         {lists &&
-          lists.map((item: IMovieRow2) => (
-            <MovieRow2
+          lists.map((item: IMovieRow) => (
+            <MovieRow
               key={item._id}
               title={item.title}
               content={item.content}
@@ -115,7 +87,7 @@ const Home = ({ type }: IHome) => {
           ))}
       </section>
 
-      {movieList.length <= 0 && <Loading />}
+      {lists.length <= 0 && <Loading />}
     </div>
   );
 };

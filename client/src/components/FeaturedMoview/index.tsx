@@ -1,16 +1,21 @@
-import { IMovieDetail } from "../../interfaces/IMovieDetail";
 import "./styles.css";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import { useEffect, useState } from "react";
-import { api } from "../../service/api";
 import { IMovie } from "../../interfaces/IMovie";
 
 interface IFeaturedMovieProps {
   item: IMovie;
+  type?: string;
+  setGenre: (e: string) => void;
+  genre: string | undefined;
 }
 
-const FeaturedMovie = ({ item }: IFeaturedMovieProps) => {
+const FeaturedMovie = ({
+  item,
+  type,
+  setGenre,
+  genre,
+}: IFeaturedMovieProps) => {
   let description = item.desc;
   if (description.length > 200) {
     description = description.substring(0, 200) + "...";
@@ -26,17 +31,36 @@ const FeaturedMovie = ({ item }: IFeaturedMovieProps) => {
       }}
     >
       <div className="featured-vertical">
+        {type && (
+          <div className="category">
+            <span>{type === "movie" ? "Filmes" : "Séries"}</span>
+            <select
+              name="genre"
+              id="genre"
+              onChange={(e) => setGenre(e.target.value)}
+              value={genre}
+            >
+              <option disabled selected>
+                Gênero
+              </option>
+              <option value="">Todos</option>
+              <option value="aventura">Aventura</option>
+              <option value="Comédia">Comédia</option>
+              <option value="Crime">Crime</option>
+              <option value="fantasia">Fantasia</option>
+              <option value="historico">Histórico</option>
+              <option value="Terror">Terror</option>
+              <option value="romance">Romance</option>
+              <option value="ficçao cientifica">Ficção Científica</option>
+              <option value="Ação">Ação</option>
+              <option value="animaçao">Animação</option>
+              <option value="drama">Drama</option>
+              <option value="documentario">Documentário</option>
+            </select>
+          </div>
+        )}
         <div className="featured-horizontal">
-          {/**   <div className="featured-name">{item.title}</div> */}
-          <img
-            src="https://w7.pngwing.com/pngs/642/405/png-transparent-superman-logo-the-new-52-the-title-bar-design-heroes-text-trademark-thumbnail.png"
-            alt=""
-            className="featured-imgTitle"
-          />
-          {/**     <div className="featured-info">
-            <div className="featured-points">{item.limit} anos</div>
-            <div className="featured-year">{item.year}</div>
-          </div> */}
+          <img src={item.imgTitle} alt={item.title} className="featured-imgTitle" />
           <div className="featured-description">{description}</div>
           <div className="featured-buttons">
             <a href={`/watch/${item._id}`} className="featured-watchButton">
@@ -48,9 +72,6 @@ const FeaturedMovie = ({ item }: IFeaturedMovieProps) => {
               Mais informações
             </a>
           </div>
-          {/**    <div className="featured-genres">
-            Gêneros: <strong>{/*genresList.join(", ") item.genre}</strong>
-          </div> */}
         </div>
       </div>
     </section>

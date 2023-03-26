@@ -2,10 +2,35 @@
     height: 100vh;
 }
 
+.category {
+    position: absolute;
+    top: 80px;
+    left: 60px;
+    font-size: 30px;
+    font-weight: 600;
+    color: white;
+    display: flex;
+    align-items: center;
+    z-index: 2;
+}
+
+.category select {
+    cursor: pointer;
+    background-color: #0b0b0b;
+    border: 1px solid white;
+    color: white;
+    margin-left: 20px;
+    padding: 5px;
+}
+
 .featured-vertical {
     width: inherit;
     height: inherit;
     background: linear-gradient(to top, #111 10%, transparent 90%);
+}
+
+.featured-vertical a {
+    cursor: pointer;
 }
 
 .featured-horizontal {

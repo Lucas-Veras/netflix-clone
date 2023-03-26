@@ -10,7 +10,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { IMovie } from "../../interfaces/IMovie";
-import { api } from "../../service/api";
+import { api } from "../../services/api";
+import { getHeaders } from "../../utils/getHeaders";
 
 interface IMovieItem {
   index: number;
@@ -24,12 +25,7 @@ export default function MovieItem({ index, item }: IMovieItem) {
   useEffect(() => {
     const getMovie = async () => {
       try {
-        const res = await api.get("/movies/find/" + item, {
-          headers: {
-            token:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZmU1YmNjMzI2M2ZkNjY3YzE1MThmMyIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY3ODEyOTA3OSwiZXhwIjoxNjc4NTYxMDc5fQ.zFmCjAYJmW85R8en0veubhvj5ulNcRLqkPLi6BV8mog" /*+JSON.parse(localStorage.getItem("user")).accessToken0,*/,
-          },
-        });
+        const res = await api.get("/movies/find/" + item, getHeaders());
         setMovie(res.data);
       } catch (err) {
         console.log(err);

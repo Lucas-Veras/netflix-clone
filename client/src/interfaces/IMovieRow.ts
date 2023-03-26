@@ -1,6 +1,10 @@
-import { IMovie } from "./ImovieList";
-
 export interface IMovieRow {
+    _id: string;
     title: string;
-    items: IMovie;
+    type: string;
+    genre: string;
+    content: string[];
+    createdAt: Date;
+    updatedAt: Date;
+    __v: number;
 }
