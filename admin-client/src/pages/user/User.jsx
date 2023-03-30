@@ -6,10 +6,14 @@ import {
   PhoneAndroid,
   Publish,
 } from "@material-ui/icons";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./user.css";
+import NetflixAvatar from "../../assets/netflixAvatar.png";
 
 export default function User() {
+  const { state } = useLocation()
+  const user = state.some
+  console.log(user)
   return (
     <div className="user">
       <div className="userTitleContainer">
@@ -22,37 +26,42 @@ export default function User() {
         <div className="userShow">
           <div className="userShowTop">
             <img
-              src="https://images.pexels.com/photos/1152994/pexels-photo-1152994.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-              alt=""
+              src={user.profilePic ? user.profilePic : NetflixAvatar}
+              alt={user.username}
               className="userShowImg"
             />
             <div className="userShowTopTitle">
-              <span className="userShowUsername">Anna Becker</span>
-              <span className="userShowUserTitle">Software Engineer</span>
+              <span className="userShowUsername">{user.username}</span>
+              <span className="userShowUserTitle">{user._id}</span>
             </div>
           </div>
           <div className="userShowBottom">
             <span className="userShowTitle">Account Details</span>
             <div className="userShowInfo">
               <PermIdentity className="userShowIcon" />
-              <span className="userShowInfoTitle">annabeck99</span>
+              <span className="userShowInfoTitle">{user.username}</span>
             </div>
             <div className="userShowInfo">
               <CalendarToday className="userShowIcon" />
-              <span className="userShowInfoTitle">10.12.1999</span>
+              <span className="userShowInfoTitle">{new Date(user.createdAt).toLocaleDateString("pt-BR")}</span>
             </div>
             <span className="userShowTitle">Contact Details</span>
-            <div className="userShowInfo">
+            {/**    <div className="userShowInfo">
               <PhoneAndroid className="userShowIcon" />
               <span className="userShowInfoTitle">+1 123 456 67</span>
-            </div>
+            </div> */}
             <div className="userShowInfo">
               <MailOutline className="userShowIcon" />
-              <span className="userShowInfoTitle">annabeck99@gmail.com</span>
+              <span className="userShowInfoTitle">{user.email}</span>
             </div>
-            <div className="userShowInfo">
+            {/**    <div className="userShowInfo">
               <LocationSearching className="userShowIcon" />
               <span className="userShowInfoTitle">New York | USA</span>
+            </div> */}
+            <div className="userShowInfo">
+              <span className="userShowInfoTitle" style={{ margin: 0 }}>
+                Last update: {new Date(user.updatedAt).toLocaleDateString("pt-BR")}
+              </span>
             </div>
           </div>
         </div>
@@ -64,15 +73,7 @@ export default function User() {
                 <label>Username</label>
                 <input
                   type="text"
-                  placeholder="annabeck99"
-                  className="userUpdateInput"
-                />
-              </div>
-              <div className="userUpdateItem">
-                <label>Full Name</label>
-                <input
-                  type="text"
-                  placeholder="Anna Becker"
+                  placeholder={user.username}
                   className="userUpdateInput"
                 />
               </div>
@@ -80,23 +81,19 @@ export default function User() {
                 <label>Email</label>
                 <input
                   type="text"
-                  placeholder="annabeck99@gmail.com"
+                  placeholder={user.email}
                   className="userUpdateInput"
                 />
               </div>
-              <div className="userUpdateItem">
-                <label>Phone</label>
-                <input
-                  type="text"
-                  placeholder="+1 123 456 67"
-                  className="userUpdateInput"
-                />
+              <div>
+                <label className="userUpdateItem">Is Admin</label>
+                <input type="checkbox" />
               </div>
               <div className="userUpdateItem">
-                <label>Address</label>
+                <label>Password</label>
                 <input
                   type="text"
-                  placeholder="New York | USA"
+                  placeholder="******"
                   className="userUpdateInput"
                 />
               </div>
@@ -105,8 +102,8 @@ export default function User() {
               <div className="userUpdateUpload">
                 <img
                   className="userUpdateImg"
-                  src="https://images.pexels.com/photos/1152994/pexels-photo-1152994.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-                  alt=""
+                  src={user.profilePic ? user.profilePic : NetflixAvatar}
+                  alt={user.username}
                 />
                 <label htmlFor="file">
                   <Publish className="userUpdateIcon" />
