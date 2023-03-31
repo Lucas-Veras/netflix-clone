@@ -9,7 +9,10 @@ import {
     deleteUserSuccess,
     createUserStart,
     createUserFailure,
-    createUserSuccess
+    createUserSuccess,
+    updateUserStart,
+    updateUserFailure,
+    updateUserSuccess,
 } from "./userActions"
 
 export const getUsers = async (dispatch) => {
@@ -22,14 +25,24 @@ export const getUsers = async (dispatch) => {
     }
 }
 
-export const createUser = async (user, dispatch, Navigate) => {
+export const getUser = async (id) => {
+    try {
+        const res = await api.get(`/users/find/${id}`, getHeaders())
+        return res.data
+    } catch (err) {
+        return err.response.data.errors[0]
+    }
+}
+
+export const createUser = async (user, dispatch) => {
     dispatch(createUserStart())
     try {
-        const res = await api.post(`/users/`, user, getHeaders())
+        const res = await api.post(`/auth/register`, user, getHeaders())
         dispatch(createUserSuccess(res.data))
-        Navigate("/users")
+        return res.data
     } catch (err) {
         dispatch(createUserFailure())
+        return err.response.data.errors[0]
     }
 }
 
@@ -40,5 +53,17 @@ export const deleteUser = async (id, dispatch) => {
         dispatch(deleteUserSuccess(id))
     } catch (err) {
         dispatch(deleteUserFailure())
+    }
+}
+
+export const updateUser = async (id, user, dispatch) => {
+    dispatch(updateUserStart())
+    try {
+        const res = await api.put(`/users/${id}`, user, getHeaders())
+        dispatch(updateUserSuccess(res.data))
+        return res.data
+    } catch (err) {
+        dispatch(updateUserFailure())
+        return err.response.data.errors[0]
     }
 }

@@ -3,9 +3,9 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import UserList from "../pages/userList/UserList";
 import User from "../pages/user/User";
 import NewUser from "../pages/newUser/NewUser";
-import ProductList from "../pages/productList/ProductList";
-import Product from "../pages/product/Product";
-import NewProduct from "../pages/newProduct/NewProduct";
+import MovieList from "../pages/movieList";
+import Movie from "../pages/movie";
+import NewMovie from "../pages/newMovie";
 import Layout from '../components/Layout';
 import Home from '../pages/home/Home';
 import Login from '../pages/login';
@@ -67,27 +67,27 @@ const RoutesApp = ({ user }) => {
                     element={
                         <RequireAuth>
                             <Layout>
-                                <ProductList />
+                                <MovieList />
                             </Layout>
                         </RequireAuth>
                     }
                 />
                 <Route
-                    path="/product/:id"
+                    path="/movie/:id"
                     element={
                         <RequireAuth>
                             <Layout>
-                                <Product />
+                                <Movie />
                             </Layout>
                         </RequireAuth>
                     }
                 />
                 <Route
-                    path="/newproduct"
+                    path="/newmovie"
                     element={
                         <RequireAuth>
                             <Layout>
-                                <NewProduct />
+                                <NewMovie />
                             </Layout>
                         </RequireAuth>
                     }

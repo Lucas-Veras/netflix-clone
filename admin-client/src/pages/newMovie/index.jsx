@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { createMovie } from "../../context/movieContext/apiCall";
 import { MovieContext } from "../../context/movieContext/movieContext";
 import storage from "../../services/firebase";
-import "./newProduct.css";
+import "./styles.css";
 
-export default function NewProduct() {
+export default function NewMovie() {
   const [movie, setMovie] = useState()
   const [img, setImg] = useState()
   const [imgTitle, setImgTitle] = useState()
