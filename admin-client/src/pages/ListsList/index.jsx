@@ -48,7 +48,7 @@ export default function ListsList() {
         rows={lists}
         disableSelectionOnClick
         columns={columns}
-        pageSize={8}
+        rowsPerPageOptions={[8, 10, 20, 50, 100]}
         checkboxSelection
         getRowId={r => r._id}
       />

@@ -1,19 +1,25 @@
 import "./userList.css";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
-import { userRows } from "../../dummyData";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useEffect } from "react";
+import { UserContext } from "../../context/userContext/userContext";
+import NetflixAvatar from "../../assets/netflixAvatar.png"
+import { deleteUser, getUsers } from "../../context/userContext/apiCall";
 
 export default function UserList() {
-  const [data, setData] = useState(userRows);
+  const { users, dispatch } = useContext(UserContext);
+
+  useEffect(() => {
+    getUsers(dispatch);
+  }, [dispatch]);
 
   const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+    deleteUser(id, dispatch);
   };
-  
+
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
+    { field: "_id", headerName: "ID", width: 90 },
     {
       field: "user",
       headerName: "User",
@@ -21,7 +27,7 @@ export default function UserList() {
       renderCell: (params) => {
         return (
           <div className="userListUser">
-            <img className="userListImg" src={params.row.avatar} alt="" />
+            <img className="userListImg" src={params.row.profilePic ? params.row.profilePic : NetflixAvatar} alt="" />
             {params.row.username}
           </div>
         );
@@ -29,14 +35,21 @@ export default function UserList() {
     },
     { field: "email", headerName: "Email", width: 200 },
     {
-      field: "status",
-      headerName: "Status",
-      width: 120,
+      field: "isAdmin",
+      headerName: "Is Admin",
+      width: 130,
     },
     {
-      field: "transaction",
-      headerName: "Transaction Volume",
-      width: 160,
+      field: "createdAt",
+      headerName: "Created At",
+      width: 140,
+      renderCell: (params) => {
+        return (
+          <div className="userListDate">
+            {new Date(params.row.createdAt).toLocaleDateString("pt-BR")}
+          </div>
+        );
+      }
     },
     {
       field: "action",
@@ -45,12 +58,12 @@ export default function UserList() {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/user/" + params.row.id}>
+            <Link to={`/user/${params.row._id}`} state={{ some: params.row }}>
               <button className="userListEdit">Edit</button>
             </Link>
             <DeleteOutline
               className="userListDelete"
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => handleDelete(params.row._id)}
             />
           </>
         );
@@ -61,11 +74,12 @@ export default function UserList() {
   return (
     <div className="userList">
       <DataGrid
-        rows={data}
+        rows={users}
         disableSelectionOnClick
         columns={columns}
-        pageSize={8}
+        rowsPerPageOptions={[8, 10, 20, 50, 100]}
         checkboxSelection
+        getRowId={r => r._id}
       />
     </div>
   );

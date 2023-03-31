@@ -3,6 +3,7 @@ import "./App.css";
 import { AuthContext, AuthContextProvider } from "./context/authContext/authContext";
 import { ListContextProvider } from "./context/listContext/listContext";
 import { MovieContextProvider } from "./context/movieContext/movieContext";
+import { UserContextProvider } from "./context/userContext/userContext";
 
 import Routes from "./routes/Routes";
 
@@ -11,11 +12,13 @@ function App() {
 
   return (
     <AuthContextProvider>
-      <MovieContextProvider>
-        <ListContextProvider>
-          <Routes user={user} />
-        </ListContextProvider>
-      </MovieContextProvider>
+      <UserContextProvider>
+        <MovieContextProvider>
+          <ListContextProvider>
+            <Routes user={user} />
+          </ListContextProvider>
+        </MovieContextProvider>
+      </UserContextProvider>
     </AuthContextProvider>
   )
 }

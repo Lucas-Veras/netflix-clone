@@ -152,3 +152,8 @@
     color: white;
     font-weight: 600;
 }
+
+.userUpdateButton:disabled {
+  background-color: rgba(0, 0, 139, 0.384);
+  cursor: not-allowed;
+}

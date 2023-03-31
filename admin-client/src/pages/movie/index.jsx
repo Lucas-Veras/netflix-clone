@@ -1,16 +1,16 @@
 import { Link, useLocation } from "react-router-dom";
-import "./product.css";
+import "./styles.css";
 //import Chart from "../../components/chart/Chart"
 import { Publish } from "@material-ui/icons";
 
-export default function Product() {
+export default function Movie() {
     const { state } = useLocation()
     const movie = state.some
     return (
         <div className="product">
             <div className="productTitleContainer">
                 <h1 className="productTitle">Movie</h1>
-                <Link to="/newproduct">
+                <Link to="/newmovie">
                     <button className="productAddButton">Create</button>
                 </Link>
             </div>

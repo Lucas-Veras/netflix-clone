@@ -1,15 +1,7 @@
 import "./sidebar.css";
 import {
   LineStyle,
-  Timeline,
-  TrendingUp,
   PermIdentity,
-  BarChart,
-  MailOutline,
-  DynamicFeed,
-  ChatBubbleOutline,
-  WorkOutline,
-  Report,
   PlayCircleOutline,
   List,
 } from "@material-ui/icons";

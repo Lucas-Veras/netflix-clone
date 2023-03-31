@@ -1,16 +1,16 @@
 import { createContext, useReducer } from "react";
 import ListReducer from "./listReducer"
 
-const INITAL_STATE = {
+const INITIAL_STATE = {
     lists: [],
     isFectching: false,
     error: false,
 }
 
-export const ListContext = createContext(INITAL_STATE)
+export const ListContext = createContext(INITIAL_STATE)
 
 export const ListContextProvider = ({ children }) => {
-    const [state, dispatch] = useReducer(ListReducer, INITAL_STATE)
+    const [state, dispatch] = useReducer(ListReducer, INITIAL_STATE)
 
     return (
         <ListContext.Provider value={{
