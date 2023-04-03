@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { createMovie } from "../../context/movieContext/apiCall";
 import { MovieContext } from "../../context/movieContext/movieContext";
 import storage from "../../services/firebase";
+import { useToggle } from "../../hooks/useToggle";
 import "./styles.css";
 
 export default function NewMovie() {
@@ -14,6 +15,15 @@ export default function NewMovie() {
   const [trailer, setTrailer] = useState()
   const [video, setVideo] = useState()
   const [uploaded, setUploaded] = useState(0)
+  const [error, setError] = useState("")
+  console.log(img)
+
+  const { setFalse: setFalseImg, setTrue: setTrueImg, value: valueImg } = useToggle()
+  const { setFalse: setFalseImgTitle, setTrue: setTrueImgTitle, value: valueImgTitle } = useToggle()
+  const { setFalse: setFalseImgSm, setTrue: setTrueImgSm, value: valueImgSm } = useToggle()
+  const { setFalse: setFalseTrailer, setTrue: setTrueTrailer, value: valueTrailer } = useToggle()
+  const { setFalse: setFalseVideo, setTrue: setTrueVideo, value: valueVideo } = useToggle()
+  const { setFalse: setDisable, setTrue: setEnable, value: disabled } = useToggle()
 
   const { dispatch } = useContext(MovieContext)
 
@@ -45,19 +55,40 @@ export default function NewMovie() {
     });
   }
 
-  const handleUpload = (e) => {
-    e.preventDefault()
-    upload([
-      { file: img, label: "img" },
-      { file: imgTitle, label: "imgTitle" },
-      { file: imgSm, label: "imgSm" },
-      { file: trailer, label: "trailer" },
-      { file: video, label: "video" },
-    ])
-  }
-
   const handleSubmit = (e) => {
     e.preventDefault()
+    if (!movie || !img || !imgTitle || !imgSm || !trailer || !video) {
+      setError("Please fill all the fields")
+      return
+    }
+    let arrayToUpload = []
+
+    if (typeof img !== "string") {
+      arrayToUpload.push({ file: img, label: "img" })
+    } else {
+      setMovie(prev => ({ ...prev, img }))
+    }
+
+    if (typeof imgTitle !== "string") {
+      arrayToUpload.push({ file: imgTitle, label: "imgTitle" })
+    }
+
+    if (typeof imgSm !== "string") {
+      arrayToUpload.push({ file: imgSm, label: "imgSm" })
+    }
+
+    if (typeof trailer !== "string") {
+      arrayToUpload.push({ file: trailer, label: "trailer" })
+    }
+
+    if (typeof video !== "string") {
+      arrayToUpload.push({ file: video, label: "video" })
+    }
+
+    if (arrayToUpload.length !== 0) {
+      upload(arrayToUpload)
+    }
+
     createMovie(movie, dispatch, Navigate)
   }
 
@@ -67,31 +98,78 @@ export default function NewMovie() {
       <form className="addProductForm">
         <div className="addProductItem">
           <label>Image</label>
-          <input
-            type="file"
-            id="img"
-            name="img"
-            onChange={e => setImg(e.target.files[0])}
-          />
+          <label>
+            <input type="radio" name="imgRadio" onChange={setFalseImg} checked={!valueImg} /> File
+          </label>
+          <label>
+            <input type="radio" name="imgRadio" onChange={setTrueImg} /> Link
+          </label>
+          {valueImg ? (
+            <input
+              type="text"
+              placeholder="Image"
+              name="img"
+              onChange={e => setImg(e.target.value)}
+            />
+          ) : (
+            <input
+              type="file"
+              id="img"
+              name="img"
+              onChange={e => setImg(e.target.files[0])}
+              accept="image/*"
+            />
+          )}
         </div>
         <div className="addProductItem">
           <label>Title image</label>
-          <input
-            type="file"
-            id="imgTitle"
-            name="imgTitle"
-            onChange={e => setImgTitle(e.target.files[0])}
-          />
+          <label>
+            <input type="radio" name="imgTitleRadio" onChange={setFalseImgTitle} checked={!valueImgTitle} /> File
+          </label>
+          <label>
+            <input type="radio" name="imgTitleRadio" onChange={setTrueImgTitle} /> Link
+          </label>
+          {valueImgTitle ? (
+            <input
+              type="text"
+              placeholder="Title image"
+              name="imgTitle"
+              onChange={e => setImgTitle(e.target.value)}
+            />
+          ) : (
+            <input
+              type="file"
+              id="imgTitle"
+              name="imgTitle"
+              onChange={e => setImgTitle(e.target.files[0])}
+              accept="image/*"
+            />
+          )}
         </div>
         <div className="addProductItem">
           <label>Thumbnail image</label>
-          <input
-            type="file"
-            id="imgSm"
-            name="imgSm"
-            onChange={e => setImgSm(e.target.files[0])}
-
-          />
+          <label>
+            <input type="radio" name="imgSmRadio" onChange={setFalseImgSm} checked={!valueImgSm} /> File
+          </label>
+          <label>
+            <input type="radio" name="imgSmRadio" onChange={setTrueImgSm} /> Link
+          </label>
+          {valueImgSm ? (
+            <input
+              type="text"
+              placeholder="Thumbnail image"
+              name="imgSm"
+              onChange={e => setImgSm(e.target.value)}
+            />
+          ) : (
+            <input
+              type="file"
+              id="imgSm"
+              name="imgSm"
+              onChange={e => setImgSm(e.target.files[0])}
+              accept="image/*"
+            />
+          )}
         </div>
         <div className="addProductItem">
           <label>Title</label>
@@ -169,23 +247,62 @@ export default function NewMovie() {
         </div>
         <div className="addProductItem">
           <label>Trailer</label>
-          <input
-            type="file"
-            name="trailer"
-            onChange={e => setTrailer(e.target.files[0])}
-          />
+          <label>
+            <input type="radio" name="trailerRadio" onChange={setFalseTrailer} checked={!valueTrailer} /> File
+          </label>
+          <label>
+            <input type="radio" name="trailerRadio" onChange={setTrueTrailer} /> Link
+          </label>
+          {valueTrailer ? (
+            <input
+              type="text"
+              placeholder="Trailer"
+              name="trailer"
+              onChange={handleChange}
+            />
+          ) : (
+            <input
+              type="file"
+              name="trailer"
+              onChange={e => setTrailer(e.target.files[0])}
+              accept="video/*"
+            />
+          )}
         </div>
         <div className="addProductItem">
           <label>Video</label>
-          <input
-            type="file"
-            name="video"
-            onChange={e => setVideo(e.target.files[0])}
-          />
+          <label>
+            <input type="radio" name="videoRadio" onChange={setFalseVideo} checked={!valueVideo} /> File
+          </label>
+          <label>
+            <input type="radio" name="videoRadio" onChange={setTrueVideo} /> Link
+          </label>
+          {valueVideo ? (
+            <input
+              type="text"
+              placeholder="Video"
+              name="video"
+              onChange={handleChange}
+            />
+          ) : (
+            <input
+              type="file"
+              name="video"
+              onChange={e => setVideo(e.target.files[0])}
+              accept="video/*"
+            />
+          )}
         </div>
-        {uploaded === 5 ? (
-          <button className="addProductButton" onClick={handleSubmit}>Create</button>
-        ) : (<button className="addProductButton" onClick={handleUpload}>Upload</button>)}
+        <div className="addProductItem" style={{ textAlign: "center", alignItems: "center" }}>
+          {error && <span style={{ color: "red" }}>{error}</span>}
+          <button
+            className="addProductButton"
+            onClick={handleSubmit}
+            disabled={disabled}
+          >
+            Create
+          </button>
+        </div>
       </form>
     </div>
   );

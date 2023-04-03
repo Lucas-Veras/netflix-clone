@@ -12,7 +12,7 @@ import Login from '../pages/login';
 import RequireAuth from '../context/authContext/requireAuth';
 import ListsList from '../pages/ListsList';
 import List from '../pages/List';
-import NewList from '../pages/NewList/';
+import NewList from '../pages/newList';
 
 const RoutesApp = ({ user }) => {
     return (

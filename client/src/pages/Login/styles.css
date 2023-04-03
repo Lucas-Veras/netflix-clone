@@ -55,12 +55,12 @@
 
 .loginForm input {
   height: 50px;
-  margin-bottom: 20px;
   border-radius: 5px;
   background-color: #333333;
   color: white;
   padding-left: 10px;
-  border: none;
+  border: 1px solid #333333;
+  transition: .2s;
   outline: none;
 }
 

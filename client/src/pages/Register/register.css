@@ -69,15 +69,27 @@
   border-radius: 5px;
 }
 
-.container .input input {
+.input input {
+  outline: none;
+  border: none;
+  padding: 10px 10px;
+}
+
+.email {
   flex: 9;
   height: 100%;
   border: none;
   padding: 0 10px;
+  outline: none;
+  border: 1px solid #ccc;
+  transition: .2s;
 }
 
 .registerButton {
+  display: flex;
   flex: 3;
+  align-items: center;
+  justify-content: center;
   height: 100%;
   background-color: red;
   border: none;

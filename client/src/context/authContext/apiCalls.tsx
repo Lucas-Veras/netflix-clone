@@ -1,5 +1,5 @@
 import { IAction } from "../../interfaces/IAuthReducer";
-import { IUser, IUserLogin } from "../../interfaces/IUser";
+import { IUserLogin } from "../../interfaces/IUser";
 import { api } from "../../services/api";
 import { loginFailure, loginStart, loginSuccess } from "./authActions";
 
@@ -11,7 +11,9 @@ export const loginDispatch = async (
   try {
     const res = await api.post("/auth/login", user);
     dispatch(loginSuccess(res.data));
-  } catch (err) {
+    return res.data;
+  } catch (err : any) {
     dispatch(loginFailure());
+    return err.response.data.errors;
   }
 };

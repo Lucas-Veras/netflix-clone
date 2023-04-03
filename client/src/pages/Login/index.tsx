@@ -1,18 +1,44 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { loginDispatch } from "../../context/authContext/apiCalls";
 import { AuthContext } from "../../context/authContext/authContext";
 import "./styles.css";
+import classNames from "classnames";
+import WhiteLoading from "../../components/WhiteLoading";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [allError, setAllError] = useState("");
+  const [loading, setLoading] = useState(false);
   const { dispatch } = useContext(AuthContext);
+
+  const classesEmail = classNames({
+    borderError: !!emailError || !!allError,
+    "mb-20": !!!emailError || !!allError,
+  });
+
+  const classesPassword = classNames({
+    borderError: !!passwordError || !!allError,
+    "mb-20": !!!passwordError || !!allError,
+  });
 
   const handleLogin = (e: any) => {
     e.preventDefault();
-    loginDispatch({ email, password }, dispatch);
+    setLoading(true);
+    setEmailError("");
+    setPasswordError("");
+    setAllError("");
+    loginDispatch({ email, password }, dispatch).then((res) => {
+      if (res.email) setEmailError(res.email);
+      if (res.password) setPasswordError(res.password);
+      if (res[0]) setAllError(res[0]);
+      setLoading(false);
+    });
   };
+
   return (
     <div className="loginPage">
       <div className="top">
@@ -32,15 +58,20 @@ export default function Login() {
           <input
             type="email"
             placeholder="Email or phone number"
+            className={classesEmail}
             onChange={(e) => setEmail(e.target.value)}
           />
+          {emailError && <p className="error mb-20">{emailError}</p>}
           <input
             type="password"
             placeholder="Senha"
+            className={classesPassword}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button className="loginButton" onClick={handleLogin}>
-            Entrar
+          {passwordError && <p className="error mb-20">{passwordError}</p>}
+          {allError && <p className="error mb-20">{allError}</p>}
+          <button className="loginButton" onClick={handleLogin} disabled={loading}>
+            {loading ? <WhiteLoading width="40px" /> : <span>Entrar</span>}
           </button>
           <span>
             Novo por aqui?{" "}
