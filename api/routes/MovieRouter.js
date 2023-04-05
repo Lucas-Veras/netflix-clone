@@ -16,7 +16,7 @@ const verifyToken = require("../middlewares/verifyToken")
 
 //Rotas
 router.post("/", verifyToken, createMovie)
-router.put("/:id", verifyToken, updateMovie)
+router.patch("/:id", verifyToken, updateMovie)
 router.delete("/:id", verifyToken, deleteMovie)
 router.get("/find/:id", verifyToken, getMovieById)
 router.get("/ramdom", verifyToken, getRamdomMovie)

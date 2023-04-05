@@ -13,7 +13,7 @@ const {
 const verifyToken = require("../middlewares/verifyToken")
 
 //Rotas
-router.put("/:id", verifyToken, updateUser)
+router.patch("/:id", verifyToken, updateUser)
 router.delete("/:id", verifyToken, deleteUser)
 router.get("/find/:id", verifyToken, getUserById)
 router.get("/", verifyToken, getAllUsers)
