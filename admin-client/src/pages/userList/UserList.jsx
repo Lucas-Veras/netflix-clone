@@ -4,9 +4,8 @@ import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { UserContext } from "../../context/userContext/userContext";
-import NetflixAvatar from "../../assets/netflixAvatar.png"
+import NetflixAvatar from "../../assets/netflixAvatar.png";
 import { deleteUser, getUsers } from "../../context/userContext/apiCall";
-
 export default function UserList() {
   const { users, dispatch } = useContext(UserContext);
 
@@ -27,7 +26,13 @@ export default function UserList() {
       renderCell: (params) => {
         return (
           <div className="userListUser">
-            <img className="userListImg" src={params.row.profilePic ? params.row.profilePic : NetflixAvatar} alt="" />
+            <img
+              className="userListImg"
+              src={
+                params.row.profilePic ? params.row.profilePic : NetflixAvatar
+              }
+              alt=""
+            />
             {params.row.username}
           </div>
         );
@@ -49,7 +54,7 @@ export default function UserList() {
             {new Date(params.row.createdAt).toLocaleDateString("pt-BR")}
           </div>
         );
-      }
+      },
     },
     {
       field: "action",
@@ -73,13 +78,17 @@ export default function UserList() {
 
   return (
     <div className="userList">
+      <div className="userListTitle">
+        <h1>User List</h1>
+        <Link to="/newUser" className="addUserLink">Create</Link>
+      </div>
       <DataGrid
         rows={users}
         disableSelectionOnClick
         columns={columns}
         rowsPerPageOptions={[8, 10, 20, 50, 100]}
         checkboxSelection
-        getRowId={r => r._id}
+        getRowId={(r) => r._id}
       />
     </div>
   );

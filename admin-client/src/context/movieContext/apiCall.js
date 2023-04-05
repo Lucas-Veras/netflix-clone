@@ -22,12 +22,11 @@ export const getMovies = async (dispatch) => {
     }
 }
 
-export const createMovie = async (movie, dispatch, Navigate) => {
+export const createMovie = async (movie, dispatch) => {
     dispatch(createMovieStart())
     try {
         const res = await api.post(`/movies/`, movie, getHeaders())
         dispatch(createMovieSuccess(res.data))
-        Navigate("/movies")
     } catch (err) {
         dispatch(createMovieFailure())
     }

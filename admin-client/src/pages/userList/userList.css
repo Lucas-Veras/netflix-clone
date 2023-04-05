@@ -15,6 +15,30 @@
   margin-right: 10px;
 }
 
+.userListTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-right: 20px;
+}
+
+.addUserLink {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 7px 10px;
+  border: none;
+  border-radius: 10px;
+  background-color: darkblue;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: center;
+  text-decoration: none;
+}
+
 .userListEdit{
     border: none;
     border-radius: 10px;

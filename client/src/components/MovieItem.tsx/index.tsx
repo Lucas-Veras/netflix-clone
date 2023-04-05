@@ -21,7 +21,7 @@ interface IMovieItem {
 export default function MovieItem({ index, item }: IMovieItem) {
   const [isHovered, setIsHovered] = useState(false);
   const [movie, setMovie] = useState<IMovie>();
-
+  console.log(movie);
   useEffect(() => {
     const getMovie = async () => {
       try {

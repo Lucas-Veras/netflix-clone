@@ -59,7 +59,7 @@ export const deleteUser = async (id, dispatch) => {
 export const updateUser = async (id, user, dispatch) => {
     dispatch(updateUserStart())
     try {
-        const res = await api.put(`/users/${id}`, user, getHeaders())
+        const res = await api.patch(`/users/${id}`, user, getHeaders())
         dispatch(updateUserSuccess(res.data))
         return res.data
     } catch (err) {

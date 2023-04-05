@@ -10,6 +10,7 @@ import NetflixAvatar from "../../assets/netflixAvatar.png";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/userContext/userContext";
 import { getUser, updateUser } from "../../context/userContext/apiCall";
+import Loading from "../../components/Loading";
 
 export default function User() {
   const [username, setUsername] = useState("");
@@ -18,30 +19,29 @@ export default function User() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [profilePic, setProfilePic] = useState("");
   const [error, setError] = useState("");
-  const [user, setUser] = useState({})
-  const [disabled, setDisabled] = useState(false)
+  const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const { dispatch } = useContext(UserContext);
-  const { state } = useLocation()
-  const { _id } = state.some
+  const { state } = useLocation();
+  const { _id } = state.some;
 
   useEffect(() => {
-    setDisabled(true)
-    getUser(_id)
-      .then(msg => {
-        setUser(msg)
-        setEmail(msg.email)
-        setUsername(msg.username)
-        setIsAdmin(msg.isAdmin)
-        setProfilePic(msg.profilePic)
-        setDisabled(false)
-      })
-  }, [_id])
+    setLoading(true);
+    getUser(_id).then((msg) => {
+      setUser(msg);
+      setEmail(msg.email);
+      setUsername(msg.username);
+      setIsAdmin(msg.isAdmin);
+      setProfilePic(msg.profilePic);
+      setLoading(false);
+    });
+  }, [_id]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setDisabled(true)
-    setError("")
+    setLoading(true);
+    setError("");
 
     let updatedUser = {
       username,
@@ -54,23 +54,22 @@ export default function User() {
       updatedUser.password = password;
     }
 
-    updateUser(user._id, updatedUser, dispatch)
-      .then(msg => {
-        if (typeof msg === "string") {
-          setError(msg)
-          setDisabled(false)
-          return
-        }
-        setUser(msg)
-        setDisabled(false)
-      })
+    updateUser(user._id, updatedUser, dispatch).then((msg) => {
+      if (typeof msg === "string") {
+        setError(msg);
+        setLoading(false);
+        return;
+      }
+      setUser(msg);
+      setLoading(false);
+    });
   };
 
   return (
     <div className="user">
       <div className="userTitleContainer">
         <h1 className="userTitle">Edit User</h1>
-        <Link to="/newUser" >
+        <Link to="/newUser">
           <button className="userAddButton">Create</button>
         </Link>
       </div>
@@ -95,7 +94,9 @@ export default function User() {
             </div>
             <div className="userShowInfo">
               <CalendarToday className="userShowIcon" />
-              <span className="userShowInfoTitle">{new Date(user.createdAt).toLocaleDateString("pt-BR")}</span>
+              <span className="userShowInfoTitle">
+                {new Date(user.createdAt).toLocaleDateString("pt-BR")}
+              </span>
             </div>
             <span className="userShowTitle">Contact Details</span>
             <div className="userShowInfo">
@@ -104,9 +105,9 @@ export default function User() {
             </div>
             <div className="userShowInfo">
               <span className="userShowInfoTitle" style={{ margin: 0 }}>
-                Last update: {new Date(user.updatedAt).toLocaleDateString("pt-BR")}
+                Last update:{" "}
+                {new Date(user.updatedAt).toLocaleDateString("pt-BR")}
               </span>
-
             </div>
             <div className="userShowInfo">
               <span className="userShowInfoTitle" style={{ margin: 0 }}>
@@ -176,9 +177,9 @@ export default function User() {
               <button
                 className="userUpdateButton"
                 onClick={handleSubmit}
-                disabled={disabled}
+                disabled={loading}
               >
-                Update
+                {loading ? <Loading width="15px" /> : <span>Update</span>}
               </button>
             </div>
           </form>
